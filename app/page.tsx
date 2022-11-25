@@ -21,6 +21,7 @@ const Home = async (): Promise<ReturnType<FC>> => {
   );
 
   const data = await getData();
+  console.log(data);
 
   return (
     <div className={styles.container}>
@@ -29,7 +30,7 @@ const Home = async (): Promise<ReturnType<FC>> => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <div>
+        {/* <div>
           {data.map((item: any) => {
             return (
               <div key={item.id}>
@@ -37,7 +38,7 @@ const Home = async (): Promise<ReturnType<FC>> => {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
         <p className={styles.description}>
           Here&apos;s a server-side UUID:
