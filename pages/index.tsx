@@ -2,8 +2,16 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { client } from "../utils/createClient";
+import { D1Database } from "@cloudflare/workers-types";
 
-export const getServerSideProps = async () => {
+interface Env {
+  NORTHWIND_DB: D1Database;
+}
+
+export const getServerSideProps = async (context: any) => {
+  const ps = context.env.NORTHWIND_DB.prepare("SELECT * from users");
+  const dbData = await ps.first();
+
   const getData = async () => {
     const data = await client.get({
       endpoint: "blog",
@@ -17,15 +25,17 @@ export const getServerSideProps = async () => {
         response.text()
       ),
       data: await getData(),
+      dbData,
     },
   };
 };
 
-const Home: NextPage<{ runtime: string; uuid: string; data: any[] }> = ({
-  runtime,
-  uuid,
-  data,
-}) => {
+const Home: NextPage<{
+  runtime: string;
+  uuid: string;
+  data: any[];
+  dbData: any;
+}> = ({ runtime, uuid, data, dbData }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -39,6 +49,10 @@ const Home: NextPage<{ runtime: string; uuid: string; data: any[] }> = ({
           Welcome to{" "}
           <a href="https://nextjs.org">Next.js, running at the {runtime}!</a>
         </h1>
+
+        <div>
+          <pre>{dbData.toSting()}</pre>
+        </div>
 
         <div>
           {data.map((item: any) => {
