@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { client } from "../utils/createClient";
@@ -8,8 +8,9 @@ interface Env {
   NORTHWIND_DB: D1Database;
 }
 
-export const getServerSideProps = async (context: any) => {
-  const ps = context.env.NORTHWIND_DB.prepare("SELECT * from users");
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  // @ts-ignore
+  const ps = req.env.NORTHWIND_DB.prepare("SELECT * from users");
   const dbData = await ps.first();
 
   const getData = async () => {
