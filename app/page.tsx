@@ -3,8 +3,8 @@ import styles from "../styles/Home.module.css";
 import { createClient } from "microcms-js-sdk";
 
 const client = createClient({
-  serviceDomain: "your-service-domain",
-  apiKey: "your-api-key",
+  serviceDomain: "iblab",
+  apiKey: "0b0927f153f6477db78828cb111b5edbf107",
   customFetch: fetch.bind(globalThis),
 });
 
