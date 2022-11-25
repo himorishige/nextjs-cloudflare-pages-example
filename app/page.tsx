@@ -5,6 +5,7 @@ import { createClient } from "microcms-js-sdk";
 const client = createClient({
   serviceDomain: "your-service-domain",
   apiKey: "your-api-key",
+  customFetch: fetch.bind(globalThis),
 });
 
 async function getData() {
